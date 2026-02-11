@@ -1,0 +1,4 @@
+[test]
+timeout = 60000
+concurrency = 1
+preload = ["./src/__tests__/setup/env.ts"]

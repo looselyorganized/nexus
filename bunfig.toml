@@ -1,0 +1,9 @@
+[install]
+exact = true
+
+[install.lockfile]
+save = true
+
+[test]
+coverage = false
+timeout = 30000

@@ -1,0 +1,28 @@
+{
+  "name": "nexus-2",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev": "bun run --filter @nexus/server dev",
+    "build": "bun run --filter '*' build",
+    "test": "bun run --filter '*' test",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,json,md}\"",
+    "db:generate": "bun run --filter @nexus/server db:generate",
+    "db:migrate": "bun run --filter @nexus/server db:migrate",
+    "db:push": "bun run --filter @nexus/server db:push",
+    "db:studio": "bun run --filter @nexus/server db:studio",
+    "typecheck": "bun run --filter '*' typecheck"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.14",
+    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  }
+}
