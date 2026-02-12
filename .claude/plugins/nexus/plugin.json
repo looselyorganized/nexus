@@ -3,12 +3,8 @@
   "version": "1.0.0",
   "description": "Multi-agent coordination for feature-spec-first development. Prevents file conflicts across engineers, manages feature lifecycle, and preserves learnings/decisions across agent sessions. Install CLI: cd apps/cli && bun link",
   "author": "Nexus Team",
-  "commands": {
-    "directory": "./commands",
-    "autoDiscover": true
-  },
   "skills": {
-    "directory": "./skills",
+    "directory": "../../skills",
     "autoDiscover": true
   },
   "hooks": {
