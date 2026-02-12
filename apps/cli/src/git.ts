@@ -30,6 +30,10 @@ export function getGitRoot(cwd?: string): string | null {
   return execGit(['rev-parse', '--show-toplevel'], cwd);
 }
 
+export function getRemoteUrl(cwd?: string): string | null {
+  return execGit(['remote', 'get-url', 'origin'], cwd);
+}
+
 export function getGitInfo(cwd?: string): {
   branch: string | null;
   commit: string | null;

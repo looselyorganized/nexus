@@ -11,6 +11,7 @@ import { registerDecisionCommand } from './commands/decision';
 import { registerSaveCommand } from './commands/save';
 import { registerStatusCommand } from './commands/status';
 import { registerWatchCommand } from './commands/watch';
+import { registerSetupCommand } from './commands/setup';
 
 const program = new Command();
 
@@ -24,6 +25,7 @@ program
     setOutputOptions({ json: opts.json });
   });
 
+registerSetupCommand(program);
 registerAuthCommands(program);
 registerProjectCommands(program);
 registerFeatureCommands(program);
