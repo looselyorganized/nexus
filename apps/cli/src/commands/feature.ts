@@ -1,9 +1,8 @@
 import { Command } from 'commander';
-import { readFileSync, existsSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { spawnSync } from 'child_process';
 import { tmpdir } from 'os';
 import { join } from 'path';
-import { writeFileSync } from 'fs';
 import { withProject } from '../helpers';
 import { updateProjectConfig, loadProjectConfigOrThrow } from '../config';
 import { output, outputSuccess, formatTable, formatKeyValue, shortId } from '../output';
@@ -77,44 +76,38 @@ const createAction = withProject('Failed to create feature', async (client, opti
   slug?: string;
   title?: string;
 }) => {
-  let spec: string;
-  let slug: string;
-  let title: string;
-  let lane: string | undefined;
-  let touches: string[] | undefined;
+  let content: string | null;
 
   if (options.from) {
     if (!existsSync(options.from)) {
       console.error(`File not found: ${options.from}`);
       process.exit(1);
     }
-    const content = readFileSync(options.from, 'utf-8');
-    const parsed = parseFrontmatter(content);
-    slug = parsed.slug ?? options.slug ?? '';
-    title = parsed.title ?? options.title ?? '';
-    spec = parsed.body;
-    lane = parsed.lane;
-    touches = parsed.touches;
+    content = readFileSync(options.from, 'utf-8');
   } else {
-    const content = openEditor(SPEC_TEMPLATE);
+    content = openEditor(SPEC_TEMPLATE);
     if (!content) {
       console.error('Editor cancelled');
       process.exit(1);
     }
-    const parsed = parseFrontmatter(content);
-    slug = parsed.slug ?? '';
-    title = parsed.title ?? '';
-    spec = parsed.body;
-    lane = parsed.lane;
-    touches = parsed.touches;
   }
+
+  const parsed = parseFrontmatter(content);
+  const slug = parsed.slug ?? options.slug ?? '';
+  const title = parsed.title ?? options.title ?? '';
 
   if (!slug || !title) {
     console.error('slug and title are required');
     process.exit(1);
   }
 
-  const feature = await client.createFeature({ slug, title, spec, lane, touches });
+  const feature = await client.createFeature({
+    slug,
+    title,
+    spec: parsed.body,
+    lane: parsed.lane,
+    touches: parsed.touches,
+  });
   outputSuccess(`Feature created: ${feature.slug}`);
   output(feature, formatKeyValue([
     ['Slug', feature.slug],

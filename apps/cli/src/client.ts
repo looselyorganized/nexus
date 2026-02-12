@@ -59,8 +59,12 @@ export class NexusClient {
     const response = await fetch(url, { ...options, headers });
 
     if (!response.ok) {
-      let body: any = {};
-      try { body = await response.json(); } catch {}
+      let body: Record<string, any> | undefined;
+      try {
+        body = await response.json() as Record<string, any>;
+      } catch {
+        // Response may not be JSON
+      }
       throw new NexusApiError(
         body?.error?.message ?? body?.message ?? `Request failed: ${response.status}`,
         response.status,

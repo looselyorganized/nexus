@@ -1,0 +1,7 @@
+apps/cli
+.claude
+.nexus
+*.test.ts
+**/__tests__
+.env
+.env.*

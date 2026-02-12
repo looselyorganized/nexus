@@ -1,6 +1,23 @@
 import { Command } from 'commander';
+import type { NexusClient } from '../client';
 import { withProject } from '../helpers';
 import { output, formatTable } from '../output';
+
+const LANE_ORDER = ['icebox', 'later', 'next', 'now'];
+
+async function findFeatureInRoadmap(client: NexusClient, slug: string): Promise<{ feature: any; roadmap: any }> {
+  const roadmap = await client.getRoadmap();
+  const feature = roadmap.lanes
+    .flatMap((l: any) => l.features)
+    .find((f: any) => f.slug === slug);
+
+  if (!feature) {
+    console.error(`Feature not found: ${slug}`);
+    process.exit(1);
+  }
+
+  return { feature, roadmap };
+}
 
 const showAction = withProject('Failed to get roadmap', async (client) => {
   const roadmap = await client.getRoadmap();
@@ -28,16 +45,7 @@ const moveAction = withProject('Failed to move feature', async (
   slug: string,
   options: { before?: string }
 ) => {
-  // Simple reorder: move slug before the target within its lane
-  const roadmap = await client.getRoadmap();
-  const feature = roadmap.lanes
-    .flatMap((l: any) => l.features)
-    .find((f: any) => f.slug === slug);
-
-  if (!feature) {
-    console.error(`Feature not found: ${slug}`);
-    process.exit(1);
-  }
+  const { feature, roadmap } = await findFeatureInRoadmap(client, slug);
 
   if (options.before) {
     // Reorder within the lane
@@ -61,47 +69,29 @@ const moveAction = withProject('Failed to move feature', async (
 });
 
 const promoteAction = withProject('Failed to promote feature', async (client, slug: string) => {
-  const laneOrder = ['icebox', 'later', 'next', 'now'];
-  const roadmap = await client.getRoadmap();
-  const feature = roadmap.lanes
-    .flatMap((l: any) => l.features)
-    .find((f: any) => f.slug === slug);
+  const { feature } = await findFeatureInRoadmap(client, slug);
 
-  if (!feature) {
-    console.error(`Feature not found: ${slug}`);
-    process.exit(1);
-  }
-
-  const idx = laneOrder.indexOf(feature.lane);
-  if (idx >= laneOrder.length - 1) {
+  const idx = LANE_ORDER.indexOf(feature.lane);
+  if (idx >= LANE_ORDER.length - 1) {
     console.log(`  ${slug} is already in the highest lane (now)`);
     return;
   }
 
-  const newLane = laneOrder[idx + 1]!;
+  const newLane = LANE_ORDER[idx + 1]!;
   await client.moveToLane(slug, newLane);
   console.log(`  Promoted ${slug}: ${feature.lane} -> ${newLane}`);
 });
 
 const deferAction = withProject('Failed to defer feature', async (client, slug: string) => {
-  const laneOrder = ['icebox', 'later', 'next', 'now'];
-  const roadmap = await client.getRoadmap();
-  const feature = roadmap.lanes
-    .flatMap((l: any) => l.features)
-    .find((f: any) => f.slug === slug);
+  const { feature } = await findFeatureInRoadmap(client, slug);
 
-  if (!feature) {
-    console.error(`Feature not found: ${slug}`);
-    process.exit(1);
-  }
-
-  const idx = laneOrder.indexOf(feature.lane);
+  const idx = LANE_ORDER.indexOf(feature.lane);
   if (idx <= 0) {
     console.log(`  ${slug} is already in the lowest lane (icebox)`);
     return;
   }
 
-  const newLane = laneOrder[idx - 1]!;
+  const newLane = LANE_ORDER[idx - 1]!;
   await client.moveToLane(slug, newLane);
   console.log(`  Deferred ${slug}: ${feature.lane} -> ${newLane}`);
 });

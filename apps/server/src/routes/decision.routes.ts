@@ -37,12 +37,13 @@ decisionRoutes.post('/', async (c) => {
 decisionRoutes.get('/', async (c) => {
   const project = c.get('project');
   const featureSlug = c.req.query('feature');
-  const limit = c.req.query('limit') ? parseInt(c.req.query('limit')!) : undefined;
+  const limitParam = c.req.query('limit');
+  const limit = limitParam ? parseInt(limitParam, 10) : undefined;
   const cursor = c.req.query('cursor');
 
   const result = await listDecisions({
     projectId: project.id,
-    featureSlug: featureSlug || undefined,
+    featureSlug,
     limit,
     cursor,
   });

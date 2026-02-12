@@ -87,7 +87,7 @@ sessionRoutes.get('/checkpoints/latest', async (c) => {
   const featureId = c.req.query('featureId');
 
   if (!featureId) {
-    return c.json({ error: 'featureId query parameter required' }, 400);
+    return c.json({ error: { code: 'VALIDATION_ERROR', message: 'featureId query parameter required' } }, 400);
   }
 
   const checkpoint = await getLatestCheckpoint(engineer.id, featureId);

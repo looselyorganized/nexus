@@ -45,7 +45,7 @@ claimRoutes.post('/refresh', async (c) => {
   const result = await refreshClaims({
     projectId: project.id,
     engineerId: engineer.id,
-    files: claims.map((c) => c.filePath),
+    files: claims.map((claim) => claim.filePath),
   });
 
   return c.json({ data: result });

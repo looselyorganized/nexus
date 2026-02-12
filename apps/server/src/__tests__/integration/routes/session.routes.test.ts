@@ -225,8 +225,8 @@ describe('GET /api/projects/:projectId/sessions/checkpoints/latest', () => {
     );
 
     expect(res.status).toBe(400);
-    const body = await jsonBody<{ error: string }>(res);
-    expect(body.error).toContain('featureId');
+    const body = await jsonBody<{ error: { code: string; message: string } }>(res);
+    expect(body.error.message).toContain('featureId');
   });
 
   it('returns null data when no checkpoint exists', async () => {

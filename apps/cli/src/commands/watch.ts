@@ -67,7 +67,7 @@ function formatEvent(event: Record<string, unknown>): string {
     case 'joined':
       return `${prefix} Joined project room`;
     case 'error':
-      return `${prefix} Error: ${(event as Record<string, unknown>).message ?? 'unknown'}`;
+      return `${prefix} Error: ${event.message ?? 'unknown'}`;
     default:
       return `${prefix} ${type}`;
   }

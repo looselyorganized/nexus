@@ -2,7 +2,7 @@ import { db } from '../db/connection';
 import { features } from '../db/schema';
 import { eq, and, desc, asc, lt, sql } from 'drizzle-orm';
 import { NotFoundError, ValidationError, ConflictError } from '../lib/errors';
-import type { FeatureStatus, Lane, AvailableFeature, FeatureTransitions as _FT } from '@nexus/shared';
+import type { FeatureStatus, Lane, AvailableFeature } from '@nexus/shared';
 import { FeatureTransitions, LanePriority } from '@nexus/shared';
 import { normalizeLimit, parseCursor, buildPaginatedResult } from '../lib/pagination';
 import { claimFiles, releaseAllFiles, getProjectClaims } from '../redis/claims';

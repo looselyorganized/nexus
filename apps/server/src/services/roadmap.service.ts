@@ -2,8 +2,7 @@ import { db } from '../db/connection';
 import { features } from '../db/schema';
 import { eq, and, asc } from 'drizzle-orm';
 import { ValidationError, NotFoundError } from '../lib/errors';
-import type { Lane, Roadmap, RoadmapLane, ReorderInput } from '@nexus/shared';
-
+import type { Feature, Lane, Roadmap, RoadmapLane, ReorderInput } from '@nexus/shared';
 
 const VALID_LANES: Lane[] = ['now', 'next', 'later', 'icebox'];
 
@@ -23,9 +22,9 @@ export async function getRoadmap(projectId: string): Promise<Roadmap> {
   }
 
   for (const feature of allFeatures) {
-    const lane = laneMap.get(feature.lane as Lane);
-    if (lane) {
-      lane.features.push(feature as any);
+    const roadmapLane = laneMap.get(feature.lane as Lane);
+    if (roadmapLane) {
+      roadmapLane.features.push(feature as unknown as Feature);
     }
   }
 

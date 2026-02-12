@@ -4,6 +4,7 @@ import { projectMiddleware } from '../middleware/project';
 import { listFeatures } from '../services/feature.service';
 import { getProjectClaims } from '../redis/claims';
 import { getActiveSessions } from '../services/session.service';
+import type { FeatureStatus } from '@nexus/shared';
 
 export const statusRoutes = new Hono();
 
@@ -13,8 +14,9 @@ statusRoutes.use('*', authMiddleware, projectMiddleware);
 statusRoutes.get('/', async (c) => {
   const project = c.get('project');
 
+  const activeStatus: FeatureStatus = 'active';
   const [activeFeatures, claims, sessions] = await Promise.all([
-    listFeatures({ projectId: project.id, status: 'active' as any }),
+    listFeatures({ projectId: project.id, status: activeStatus }),
     getProjectClaims(project.id),
     getActiveSessions(project.id),
   ]);

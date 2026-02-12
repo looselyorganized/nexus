@@ -80,36 +80,27 @@ export async function createCheckpoint(
     activeClaims = claims.map((c) => c.filePath);
   }
 
-  // Dedup for auto_periodic type
+  // Compute hash for deduplication (only for auto_periodic)
+  let stateHash: string | null = null;
   if (checkpointType === 'auto_periodic') {
-    const newHash = computeHash({
+    stateHash = computeHash({
       featureId: input.featureId,
       context: input.context,
       activeClaims,
     });
 
     const latest = await getLatestCheckpoint(engineerId, input.featureId);
-    if (latest) {
-      if (latest.stateHash === newHash) {
-        logger.debug({ featureId: input.featureId }, 'Skipping duplicate checkpoint');
-        return null;
-      }
+    if (latest && latest.stateHash === stateHash) {
+      logger.debug({ featureId: input.featureId }, 'Skipping duplicate checkpoint');
+      return null;
     }
-
-    // Store hash for next comparison
-    return doCreateCheckpoint(projectId, engineerId, {
-      ...input,
-      type: checkpointType,
-      activeClaims,
-      stateHash: newHash,
-    });
   }
 
   return doCreateCheckpoint(projectId, engineerId, {
     ...input,
     type: checkpointType,
     activeClaims,
-    stateHash: null,
+    stateHash,
   });
 }
 

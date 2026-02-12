@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { z } from 'zod';
+import type { FeatureStatus, Lane } from '@nexus/shared';
 import { authMiddleware } from '../middleware/auth';
 import { projectMiddleware } from '../middleware/project';
 import {
@@ -56,15 +57,16 @@ featureRoutes.post('/', async (c) => {
 // GET /api/projects/:projectId/features
 featureRoutes.get('/', async (c) => {
   const project = c.get('project');
-  const status = c.req.query('status') as string | undefined;
-  const lane = c.req.query('lane') as string | undefined;
-  const limit = c.req.query('limit') ? parseInt(c.req.query('limit')!) : undefined;
+  const status = c.req.query('status') as FeatureStatus | undefined;
+  const lane = c.req.query('lane') as Lane | undefined;
+  const limitParam = c.req.query('limit');
+  const limit = limitParam ? parseInt(limitParam, 10) : undefined;
   const cursor = c.req.query('cursor');
 
   const result = await listFeatures({
     projectId: project.id,
-    status: status as any,
-    lane: lane as any,
+    status,
+    lane,
     limit,
     cursor,
   });

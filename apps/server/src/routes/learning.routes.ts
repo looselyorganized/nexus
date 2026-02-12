@@ -30,7 +30,8 @@ learningRoutes.post('/', async (c) => {
 learningRoutes.get('/', async (c) => {
   const project = c.get('project');
   const slug = c.req.param('slug')!;
-  const limit = c.req.query('limit') ? parseInt(c.req.query('limit')!) : undefined;
+  const limitParam = c.req.query('limit');
+  const limit = limitParam ? parseInt(limitParam, 10) : undefined;
   const cursor = c.req.query('cursor');
 
   const result = await listLearnings({

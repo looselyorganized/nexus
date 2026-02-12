@@ -102,17 +102,30 @@ export async function subscribe(projectId: string): Promise<void> {
 
 export function onMessage(handler: MessageHandler): () => void {
   messageHandlers.add(handler);
-  return () => { messageHandlers.delete(handler); };
+  return () => {
+    messageHandlers.delete(handler);
+  };
 }
 
 export async function closePubSub(): Promise<void> {
   for (const channel of subscribedChannels) {
-    try { await subscriber?.unsubscribe(channel); } catch { /* ignore */ }
+    try {
+      await subscriber?.unsubscribe(channel);
+    } catch {
+      // Ignore unsubscribe errors during shutdown
+    }
   }
   subscribedChannels.clear();
   messageHandlers.clear();
-  if (subscriber) { await subscriber.quit(); subscriber = null; }
-  if (publisher) { await publisher.quit(); publisher = null; }
+
+  if (subscriber) {
+    await subscriber.quit();
+    subscriber = null;
+  }
+  if (publisher) {
+    await publisher.quit();
+    publisher = null;
+  }
 }
 
 export function isPubSubInitialized(): boolean {
