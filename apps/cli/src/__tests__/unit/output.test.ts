@@ -5,7 +5,6 @@ import {
   output,
   outputSuccess,
   outputError,
-  outputWarning,
   formatKeyValue,
   formatTable,
   shortId,

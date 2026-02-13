@@ -97,12 +97,11 @@ const deferAction = withProject('Failed to defer feature', async (client, slug: 
 });
 
 export function registerRoadmapCommands(program: Command): void {
-  program
+  const roadmapCmd = program
     .command('roadmap')
-    .description('Display roadmap')
+    .alias('rm')
+    .description('Display roadmap and manage lanes')
     .action(showAction);
-
-  const roadmapCmd = program.command('roadmap-ops').description('Roadmap operations').alias('rm');
 
   roadmapCmd
     .command('move <slug>')

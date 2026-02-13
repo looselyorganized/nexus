@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, mock, spyOn } from 'bun:test';
+import { describe, it, expect, beforeEach, mock } from 'bun:test';
 import { NexusApiError, NexusClient } from '../../client';
 
 // ---------------------------------------------------------------------------

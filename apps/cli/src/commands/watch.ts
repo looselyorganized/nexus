@@ -3,26 +3,32 @@ import { isLinked, loadGlobalConfigOrThrow, loadProjectConfigOrThrow, getServerU
 import { isJsonMode } from '../output';
 
 const EVENT_ICONS: Record<string, string> = {
-  feature_created: '+',
-  feature_updated: '~',
-  feature_claimed: '>',
-  feature_released: '<',
-  feature_completed: '*',
-  files_claimed: '#',
-  files_released: '#',
-  learning_added: 'L',
-  decision_added: 'D',
-  session_started: 'S',
-  session_ended: 'X',
-  connected: '.',
-  joined: '.',
-  left: '.',
-  error: '!',
+  feature_created: '✨',
+  feature_updated: '📝',
+  feature_claimed: '🚀',
+  feature_released: '🔓',
+  feature_completed: '✅',
+  files_claimed: '📌',
+  files_released: '📎',
+  learning_added: '💡',
+  decision_added: '⚖️',
+  session_started: '🟢',
+  session_ended: '🔴',
+  connected: '🔗',
+  joined: '📡',
+  left: '👋',
+  error: '❌',
 };
 
 function engineerName(event: Record<string, unknown>): string {
+  // Feature service events use nested { engineer: { id, name } }
   const eng = event.engineer as Record<string, unknown> | undefined;
-  return (eng?.name ?? eng?.id ?? 'unknown') as string;
+  if (eng?.name) return eng.name as string;
+  if (eng?.id) return eng.id as string;
+  // WS handler events use flat { engineerName, engineerId }
+  if (event.engineerName) return event.engineerName as string;
+  if (event.engineerId) return event.engineerId as string;
+  return 'unknown';
 }
 
 function featureSlug(event: Record<string, unknown>): string {

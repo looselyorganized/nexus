@@ -37,7 +37,7 @@ afterEach(() => {
 
 describe('withErrorHandling', () => {
   it('calls the wrapped action with the provided arguments', async () => {
-    const actionMock = mock(async (a: string, b: number) => {});
+    const actionMock = mock(async (_a: string, _b: number) => {});
     const wrapped = withErrorHandling('fallback', actionMock);
 
     await wrapped('hello', 42);

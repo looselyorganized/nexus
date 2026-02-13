@@ -87,6 +87,7 @@ export const websocketHandler = {
     if (connection.projectId) {
       await broadcastToProject(connection.projectId, 'session_ended', {
         engineerId,
+        engineerName: connection.engineerName,
       });
     }
   },
@@ -186,6 +187,6 @@ async function handleLeave(
   leaveProjectRoom(connectionId, projectId);
   ws.send(serializeServerEvent(createLeftEvent(projectId)));
 
-  await broadcastToProject(projectId, 'session_ended', { engineerId });
+  await broadcastToProject(projectId, 'session_ended', { engineerId, engineerName: connection.engineerName });
   logger.info({ connectionId, projectId }, 'Left project');
 }

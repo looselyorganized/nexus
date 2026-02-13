@@ -6,7 +6,7 @@ import { loadGlobalConfig, saveGlobalConfig, saveProjectConfig } from '../config
 import { isGitRepo, getGitRoot, getRemoteUrl } from '../git';
 import { isJsonMode } from '../output';
 
-const NEXUS_CLOUD_URL = 'https://nexus-production.up.railway.app';
+const NEXUS_CLOUD_URL = 'https://nexus-server-production-88c3.up.railway.app';
 const LOCAL_DEV_URL = 'http://localhost:3001';
 
 function required<T>(value: T | symbol): T {
@@ -75,6 +75,7 @@ async function setupAction() {
   // ─── Step 1: Server URL ───
 
   let serverUrl: string;
+  let healthy = false;
 
   if (globalConfig?.serverUrl) {
     const keep = required(await p.confirm({
@@ -86,20 +87,16 @@ async function setupAction() {
     serverUrl = await promptServerUrl();
   }
 
-  const s1 = p.spinner();
-  s1.start('Checking server connectivity...');
-  const healthy = await checkHealth(serverUrl);
-  if (healthy) {
-    s1.stop('Server is reachable.');
-  } else {
-    s1.stop('Server is not reachable.');
-    const cont = required(await p.confirm({
-      message: 'Server is not reachable. Continue anyway?',
-      initialValue: false,
-    }));
-    if (!cont) {
-      p.cancel('Setup cancelled.');
-      process.exit(0);
+  while (!healthy) {
+    const s1 = p.spinner();
+    s1.start('Connecting to Nexus server...');
+    healthy = await checkHealth(serverUrl);
+    if (healthy) {
+      s1.stop('Server is live.');
+    } else {
+      s1.stop(`Could not reach ${serverUrl}`);
+      p.log.warning('The server may be down or the URL may be incorrect.');
+      serverUrl = await promptServerUrl();
     }
   }
 
