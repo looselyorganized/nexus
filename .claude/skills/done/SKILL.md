@@ -4,9 +4,13 @@ description: >-
   Mark the current feature as complete. Releases claims, cleans up
   exported files, and clears active feature. Use when user says
   "mark done", "feature complete", "finished with this feature",
-  "ship it", or "done with <slug>". Requires active feature in
-  .nexus.json.
+  "ship it", "done with <slug>", "I'm finished", "all tests pass",
+  or "ready to merge". Requires active feature in .nexus.json.
 argument-hint: ""
+metadata:
+  author: Nexus Team
+  version: 1.0.0
+compatibility: Requires Nexus CLI (nexus command) and .nexus.json project link. Claude Code only.
 ---
 
 # Complete Feature

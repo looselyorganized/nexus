@@ -6,6 +6,10 @@ description: >-
   "TIL", "good to know", or when Claude discovers something
   noteworthy during implementation. Requires active feature.
 argument-hint: "<insight>"
+metadata:
+  author: Nexus Team
+  version: 1.0.0
+compatibility: Requires Nexus CLI (nexus command) and .nexus.json project link. Claude Code only.
 ---
 
 # Record a Learning

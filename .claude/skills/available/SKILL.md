@@ -3,9 +3,14 @@ name: available
 description: >-
   Show features available to work on in the current Nexus project.
   Use when user says "what's available", "what can I work on",
-  "show features", "any features to pick up", or wants to see
-  claimable work. Requires .nexus.json in project root.
+  "show features", "any features to pick up", "what should I do
+  next", "find me work", or wants to see claimable work. Requires
+  .nexus.json in project root.
 argument-hint: ""
+metadata:
+  author: Nexus Team
+  version: 1.0.0
+compatibility: Requires Nexus CLI (nexus command) and .nexus.json project link. Claude Code only.
 ---
 
 # Show Available Features

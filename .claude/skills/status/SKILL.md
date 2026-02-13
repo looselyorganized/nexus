@@ -4,8 +4,14 @@ description: >-
   Show the current Nexus project status including active features,
   file claims, and sessions. Use when user says "nexus status",
   "project status", "what's going on", "who's working on what",
-  or wants an overview of project activity. Requires .nexus.json.
+  "show claims", "who has what files", "active engineers", or wants
+  an overview of project activity. Requires .nexus.json. Do NOT use
+  for general project questions unrelated to Nexus coordination.
 argument-hint: ""
+metadata:
+  author: Nexus Team
+  version: 1.0.0
+compatibility: Requires Nexus CLI (nexus command) and .nexus.json project link. Claude Code only.
 ---
 
 # Project Status

@@ -6,6 +6,9 @@ description: >-
   CLI tooling. Auto-loads when .nexus.json exists in the project
   root. Not directly invocable — use the action skills instead.
 user-invocable: false
+metadata:
+  author: Nexus Team
+  version: 1.0.0
 ---
 
 # Nexus — Multi-Agent Engineering Coordination

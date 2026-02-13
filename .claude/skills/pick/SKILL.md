@@ -7,6 +7,10 @@ description: >-
   "grab <slug>", or "let me take <slug>". Requires .nexus.json
   in project root.
 argument-hint: "<slug>"
+metadata:
+  author: Nexus Team
+  version: 1.0.0
+compatibility: Requires Nexus CLI (nexus command) and .nexus.json project link. Claude Code only.
 ---
 
 # Pick a Feature

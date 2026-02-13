@@ -6,6 +6,10 @@ description: >-
   "let's go with", "architectural decision", or when an important
   technical choice is made during implementation. Requires active feature.
 argument-hint: "<what> --rationale <why>"
+metadata:
+  author: Nexus Team
+  version: 1.0.0
+compatibility: Requires Nexus CLI (nexus command) and .nexus.json project link. Claude Code only.
 ---
 
 # Record a Decision

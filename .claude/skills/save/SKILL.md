@@ -3,9 +3,13 @@ name: save
 description: >-
   Save a progress checkpoint for the active session. Use when user
   says "save progress", "checkpoint", "save checkpoint", "save my
-  work", or at natural stopping points during implementation.
-  Requires active feature.
+  work", "before I stop", "ending session", "wrapping up", or at
+  natural stopping points during implementation. Requires active feature.
 argument-hint: "<message>"
+metadata:
+  author: Nexus Team
+  version: 1.0.0
+compatibility: Requires Nexus CLI (nexus command) and .nexus.json project link. Claude Code only.
 ---
 
 # Save Checkpoint

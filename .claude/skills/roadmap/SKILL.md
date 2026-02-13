@@ -3,9 +3,15 @@ name: roadmap
 description: >-
   View the project roadmap organized by priority lane. Use when
   user says "show roadmap", "what's on the roadmap", "project plan",
-  "feature lanes", or wants to see all features grouped by priority.
-  Requires .nexus.json in project root.
+  "feature lanes", "priorities", "what's planned", "feature backlog",
+  or wants to see all features grouped by priority. Also handles
+  promote, defer, and move operations. Requires .nexus.json. Do NOT
+  use for general project planning unrelated to Nexus features.
 argument-hint: ""
+metadata:
+  author: Nexus Team
+  version: 1.0.0
+compatibility: Requires Nexus CLI (nexus command) and .nexus.json project link. Claude Code only.
 ---
 
 # Project Roadmap
