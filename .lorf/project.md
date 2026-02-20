@@ -7,7 +7,7 @@ topics:
   - multi-agent-coordination
   - ai-engineering
   - developer-tooling
-repo: "https://github.com/looselyorganized/nexus-2.git"
+repo: "https://github.com/looselyorganized/nexus.git"
 stack:
   - TypeScript
   - Bun
