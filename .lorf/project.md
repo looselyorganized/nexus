@@ -7,7 +7,7 @@ topics:
   - multi-agent-coordination
   - ai-engineering
   - developer-tooling
-repo: "https://github.com/mhofwell/nexus-2.git"
+repo: "https://github.com/looselyorganized/nexus-2.git"
 stack:
   - TypeScript
   - Bun
@@ -36,7 +36,6 @@ Nexus is a coordination server that lets multiple AI coding agents work on the s
 - **Checkpoints** — Session state snapshots for crash recovery and progress tracking
 - **Real-Time** — Redis pub/sub + WebSocket broadcast across all connected instances
 - **Feature Lifecycle** — Draft, ready, active, done workflow with slug-based routing and ownership
-- **Decisions** — Structured architectural decision records tied to features
 - **CLI** — Nexus CLI allows agents to claim, checkpoint, learn, and manage features from the terminal
 
 ## Architecture
