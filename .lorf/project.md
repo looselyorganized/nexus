@@ -1,8 +1,8 @@
 ---
-title: "Project: Nexus"
+title: "Nexus"
 description: "Coordination server for multi-agent engineering teams — prevents file collisions, preserves knowledge across sessions, and manages feature lifecycles."
-status: "experimenting"
-classification: "public-closed"
+status: "build"
+classification: "public"
 topics:
   - multi-agent-coordination
   - ai-engineering
