@@ -41,3 +41,11 @@ Nexus is a coordination server that lets multiple AI coding agents work on the s
 ## Architecture
 
 Bun monorepo: Hono.js HTTP + WebSocket server, Commander.js CLI, shared types package. Routes validate with Zod, call service layer, return JSON. Redis handles claims and pub/sub. Postgres via Drizzle for persistent state.
+
+## Infrastructure
+
+- **Docker** — Multi-stage Bun image for containerized server deployment
+- **Railway** — Hosts Redis instance and the production server container
+- **Supabase** — Managed PostgreSQL via connection pooler
+- **Redis (ioredis)** — Distributed file-claim locks and pub/sub event broadcast
+- **Prometheus (prom-client)** — Server metrics endpoint
