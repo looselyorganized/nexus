@@ -2,7 +2,7 @@
 title: "Nexus"
 description: "Coordination server for multi-agent engineering teams — prevents file collisions, preserves knowledge across sessions, and manages feature lifecycles."
 status: "build"
-classification: "public"
+state: "public"
 topics:
   - multi-agent-coordination
   - ai-engineering
