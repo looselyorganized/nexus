@@ -1,4 +1,5 @@
 ---
+proj_id: "proj_e74c2a6f-ef8b-436b-9d22-d6fbcf50689b"
 title: "Nexus"
 description: "Coordination server for multi-agent engineering teams — prevents file collisions, preserves knowledge across sessions, and manages feature lifecycles."
 status: "build"
