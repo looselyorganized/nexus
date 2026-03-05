@@ -8,4 +8,4 @@ _No features yet. Use `/lo:backlog feature "name"` to add one._
 
 ## Tasks
 
-- [ ] t001 Review PROJECT.md and fill any TODO placeholders
+_No open tasks. Use `/lo:backlog task "description"` to add one._
