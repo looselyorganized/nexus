@@ -1,17 +1,34 @@
 # Nexus
 
-A coordination server for multi-agent engineering teams. Nexus prevents file collisions, preserves knowledge across sessions, and manages feature lifecycles so multiple AI agents (or engineers) can work on the same codebase without stepping on each other.
+A coordination server for codebases with N coding agents (Claude Code and similar) across Y engineers.
 
 ## The Problem
 
-When multiple agents work on a project simultaneously, things break:
+Once N × Y grows past 2 or 3, merge conflicts stop being rare — one agent rebases onto changes another just pushed mid-edit, terminals crash and silently keep their locks, nobody knows who's working on what.
 
-- Two agents edit the same file and one overwrites the other
-- An agent crashes and all context about what it was doing is lost
-- Nobody knows which features are in progress or who's working on what
-- Architectural decisions get made and forgotten
+**A real moment, captured from my own Claude Code session:**
 
-Nexus solves this with **file-level claims** (backed by Redis), **persistent learnings and decisions**, **session checkpoints** for crash recovery, and a clear **feature lifecycle** from spec to done.
+````
+You're right — we're in telemetry-exporter but this merge conflict might be from
+work happening elsewhere. Let me just commit the park file and push what's there.
+
+⏺ Bash(git add .lo/park/cr-review-pipeline.md && git commit -m "$(cat <<'EOF'
+      docs: park CR review pipeline feature for new project…)
+  ⎿ [main 27c1019] docs: park CR review pipeline feature for new project
+      1 file changed, 105 insertions(+)
+      create mode 100644 .lo/park/cr-review-pipeline.md
+````
+
+Two Claude Code terminals, one codebase. The terminal above noticed the conflict came from *somewhere else*, shrugged, committed what it had, and pushed. The other terminal's in-flight work was already rebased over — silently. Git doesn't see this as a problem; the operator only discovers it when tests fail or a reviewer asks why a change vanished.
+
+## Why Not Git Worktrees?
+
+Worktrees solve *file isolation* (each agent in its own checkout) but defer every conflict to merge time and give no visibility into what the other agents are doing mid-task. Nexus is the coordination layer worktrees don't give you:
+
+- **Pick-time conflict detection** — Redis-backed atomic file claims. An agent either gets the files it needs before it starts, or it picks a different feature. No 30-minute rework cycles at rebase.
+- **Shared-infrastructure coordination** — the places worktrees give you nothing: root `package.json`, `tsconfig.json`, DB migrations, shared schemas.
+- **Visibility primitives** — session heartbeat + crash recovery. A dead terminal doesn't silently hold locks; a crashed agent's in-flight work is surfaced, not lost.
+- **Feature lifecycle** — clear draft → ready → active → done states, picked atomically, released on completion.
 
 ## How It Works
 
